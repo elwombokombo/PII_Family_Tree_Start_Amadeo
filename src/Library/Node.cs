@@ -1,38 +1,47 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System;
+using System.Text;
 
 namespace Library
 {
-    public class Node
+    public class Node<T>
     {
-        private int number;
+        private T content;
 
-        private List<Node> children = new List<Node>();
-
-        public int Number {
-            get
-            {
-                return this.number;
-            }
-        }
-
-        public ReadOnlyCollection<Node> Children { 
+        private List<Node<T>> children = new List<Node<T>>();
+        
+        public ReadOnlyCollection<Node<T>> Children 
+        { 
             get
             {
                 return this.children.AsReadOnly();
             }
         }
 
-        public Node(int number)
+        public Node(T content)
         {
-            this.number = number;
+            this.content = content;
         }
 
-        public void AddChildren(Node n)
+        public T Content
+        {
+            get
+            {
+                return this.content;
+            }
+        }
+        public void AddChildren(Node<T> n)
         {
             this.children.Add(n);
         }
+        public void Accept(IVisitor<Node<T>> visitor)
+        {
+             visitor.Visit(this);
+        }
         
+        
+
+               
     }
 }
